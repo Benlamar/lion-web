@@ -1,0 +1,55 @@
+form{
+    /* display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 2rem;
+    height: 100%; */
+}
+
+.draganddrop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    height: 10rem;
+    padding: 1rem;
+    background-color: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .1);
+    transition: 0.3s;
+    border-color: var(--indigo-dye);
+    border-style: dashed;
+    text-align: center;
+}
+
+.draganddrop.active {
+    background-color: #E1E5F2;
+}
+
+#input-file-upload {
+    display: none;
+}
+
+.select-button,
+.upload-input {
+    cursor: pointer;
+    padding: 6px 14px;
+    transition: 0.8s;
+    border: none;
+    border-radius: 8px;
+}
+
+.select-button{
+    color: var(--indigo-dye);
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.upload-input {
+    background-color: var(--indigo-dye);
+    color: var(--cream);
+    margin-top: 24px;
+    background-color: var(--indigo-dye);
+}
