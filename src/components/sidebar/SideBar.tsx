@@ -4,12 +4,15 @@ import {
     FaSistrix,
     FaPlus,
     FaTh,
-    FaBars,
     FaArrowLeft,
+    FaArrowRight,
     FaExclamationCircle
 } from "react-icons/fa";
 
 import { BiStats } from "react-icons/bi"
+
+import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from 'react';
 
 export default function SideBar() {
     const menuItem = [
@@ -40,19 +43,38 @@ export default function SideBar() {
         },
     ]
 
-    return (
+    const [collapse, setCollapse] = useState(false)
+
+    const isCollapsed = useMediaQuery({ query : '(max-width: 900px)' })
+
+    const handleCollapse = () =>{
+        setCollapse(!collapse)
+    }
+
+    useEffect(()=>{
+        if (isCollapsed){
+            setCollapse(true)
+        }
+        else{
+            setCollapse(false)
+        }
+    },[isCollapsed])
+    
+       return (
         <main className='d-flex h-100'>
-            <div className='sidebar pt-1'>
+            <div className={collapse ? 'sidebar collapse-sidebar': isCollapsed ? 'sidebar collapse-sidebar-expand' : 'sidebar'}>
                 <ul className='sidebar-list fw-bold d-flex flex-column align-items-center p-0 my-0 ms-0'>
-                    <li className='sidebar-item text-center d-flex justify-content-center align-items-center text-white'>
-                        <FaArrowLeft />
+
+                    <li className='sidebar-item text-center d-flex justify-content-center align-items-center text-white' onClick={handleCollapse}>
+                        {collapse ? <FaArrowRight /> : <FaArrowLeft />}
                     </li>
+                    
                     {
                         menuItem.map((item, index) => (
                             <li className='sidebar-item text-center' key={index}>
                                 <Link className='d-flex justify-content-start align-items-center' to={item.path}>
                                     <div className='sidebar-icons d-flex ms-4'>{item.icon}</div>
-                                    <div className='sidebar-label mx-2'>{item.name}</div>
+                                    <div className= {collapse ? 'collapse-label' : 'sidebar-label' + ' mx-2'}>{item.name}</div>
                                 </Link>
                             </li>
                         ))
@@ -60,6 +82,7 @@ export default function SideBar() {
                 </ul>
             </div>
 
+            
             <Outlet />
         </main>
     );

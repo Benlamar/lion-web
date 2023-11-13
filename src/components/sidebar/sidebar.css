@@ -6,10 +6,12 @@
 
 .sidebar{
     background-color: var(--indigo-dye);
-    width: 10rem;
-    min-width: 4rem;
+    width: 12rem; 
+    min-width: 4rem; 
     max-width: 16rem;
     height: 100%;
+    position: relative;
+    z-index: 5;
 }
 
 .sidebar-list{
@@ -38,15 +40,31 @@
     text-wrap: nowrap;
 }
 
-@media screen and (max-width: 900px) {
+.sidebar-icon {
+    margin: auto auto;
+}
+
+.collapse-label{
+    display: none;
+    width: 0;
+}
+
+.collapse-sidebar{
+    width: fit-content;
+}
+
+.collapse-sidebar-expand{
+    z-index: 5;
+}
+
+ @media screen and (max-width: 900px) {
     .sidebar{
-        width: fit-content;
+        font-size: 1rem;
     }
-    .sidebar-label {
-      display: none;
-      width: 0;
-    }
-    .sidebar-icon {
-        margin: auto auto;
+  }
+
+  @media screen and (max-width: 800px) {
+    .sidebar{
+        font-size: 0.8rem;
     }
   }
