@@ -40,7 +40,7 @@ form{
     border-radius: 8px;
 }
 
-.select-button{
+.select-button {
     color: var(--indigo-dye);
     background-color: transparent;
     font-weight: bold;
@@ -52,4 +52,10 @@ form{
     color: var(--cream);
     margin-top: 24px;
     background-color: var(--indigo-dye);
+}
+
+.file-list{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }

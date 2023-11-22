@@ -1,81 +1,76 @@
-import { useState, useRef, ChangeEvent, DragEvent, FormEvent } from 'react';
+import { useState, useMemo } from 'react';
 import './upload.css';
+import { useDropzone, FileWithPath } from 'react-dropzone';
 
 export default function Upload() {
-    const [file, setFile] = useState<File[]>([]);
-    const [dragIsOver, setDragIsOver] = useState(false);
-    const click = useRef<HTMLInputElement>(null)
-
-    const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setDragIsOver(true);
-    }
-
-    const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setDragIsOver(false);
-    };
-    
-    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setDragIsOver(false);
-
-        const dropfiles = Array.from(e.dataTransfer.files);
-        console.log(dropfiles)
-
-        if (dropfiles.length) {
-            setFile(prev => [...prev, ...Array.from(dropfiles)])
-        }
-
+    const baseStyle = {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px',
+        borderWidth: 2,
+        borderRadius: 2,
+        borderColor: '#818c94d1',
+        borderStyle: 'dashed',
+        backgroundColor: '#d2d2d2cf',
+        color: '#000000',
+        outline: 'none',
+        transition: 'border .24s ease-in-out'
     };
 
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        const target = e.target as HTMLInputElement & {
-            files: FileList
-        }
+    const focusedStyle = {
+        borderColor: '#124e78'
+    };
 
-        if (target.files && target.files.length) {
-            setFile(prev => [...prev, ...Array.from(target.files)])
-        }
-    }
+    const acceptStyle = {
+        borderColor: '#00e676'
+    };
 
-    const onButtonClicked = () => {
-        if (click.current) {
-            click.current.click();
-        }
-    }
+    const rejectStyle = {
+        borderColor: '#ff1744'
+    };
 
-    const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        console.log(file);
-    }
+    const { acceptedFiles, getRootProps,
+        getInputProps, isFocused,
+        isDragAccept, isDragReject } = useDropzone();
+
+    const files = acceptedFiles.map((file: FileWithPath) => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
+
+    const style = useMemo(() => ({
+        ...baseStyle,
+        ...(isFocused ? focusedStyle : {}),
+        ...(isDragAccept ? acceptStyle : {}),
+        ...(isDragReject ? rejectStyle : {})
+    }), [
+        isFocused,
+        isDragAccept,
+        isDragReject
+    ]);
+
 
     return (
         <div className='d-flex flex-column w-100 p-2 position-relative'>
             <p className='text-center'>Upload sample images here to get the classification result</p>
-            <div className='list-images'>
+
+            <section className="container">
+                <div {...getRootProps({ className: 'dropzone', style })}>
+                    <input {...getInputProps()} />
+                    <p className='m-0'>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+            </section>
+
+            <div className='file-list'>
+                <h4>Files list</h4>
+                <ul>
+                    {files}
+                </ul>
             </div>
 
-            <form className='w-80 px-4 text-center'>
-                <div className={dragIsOver ? 'draganddrop active' : 'draganddrop'}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    >
-
-                    {
-                        dragIsOver ? "You can drop now" : "Drag and drop here"
-                    }
-                    <br />
-                    or
-                    <input ref={click} id="input-file-upload" type='file' name="upload" onChange={handleOnChange} multiple={true} />
-
-                    <button className='select-button' onClick={onButtonClicked}>Select File</button>
-                </div>
-
-                <input className='upload-input' type='submit'/>
-            </form>
         </div>
     );
 }
