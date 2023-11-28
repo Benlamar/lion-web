@@ -9,8 +9,13 @@
 
   /* CSS HEX */
 --indigo-dye: #124e78ff;
---cream: #f0f0c9ff;
+--indigo-dye-hover: #195885;
+
+--secondary-color: #124e7877;
+/*--acent-color: #ffc107ff;*/
 --amber: #f2bb05ff;
+
+--cream: #f0f0c9ff;
 --syracuse-red-orange: #d74e09ff;
 --blood-red: #6e0e0aff;
 }
